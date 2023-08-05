@@ -40,7 +40,7 @@ export const getChat = async (req: Request, res: Response) => {
     const { userId, friendID } = req.params;
     const chat = await chatModel.find({
       member: {
-        $all: [userId, friendID],
+        $all: [userId],
       },
     });
 
@@ -67,7 +67,7 @@ export const getSpecifiicChat = async (req: Request, res: Response) => {
     });
 
     res.status(201).send({
-      message: "chat successfully",
+      message: "Specific chat gotten successfully",
       data: chat,
     });
   } catch (error) {
