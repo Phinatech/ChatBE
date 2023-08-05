@@ -25,7 +25,7 @@ export const getUser =async (req:Request, res:Response) => {
          const user = await userModel.find()
 
           res.status(200).json({
-            message:"Success",
+            message:`gotten ${user.length} users`,
             data:user
           })
      } catch (error) {

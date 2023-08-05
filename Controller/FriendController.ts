@@ -10,15 +10,15 @@ export const beFriend = async(req:Request, res:Response) =>{
         const user: any = await userModel.findById(userId)
 
         if(user && friend){
-            friend.friends?.push(userId)
-            friend.save()
+           user?.friends?.push(friendID);
+           user.save();
 
-            user.friend.push(friendID)
-            user.save()
+            friend?.friends?.push(userId)
+            friend.save()  
         }
 
         res.status(201).json({
-            message:"you ar both friends"
+            message:"you are both friends"
         })
     } catch (error ) {
        res.status(400).json({
@@ -30,21 +30,19 @@ export const beFriend = async(req:Request, res:Response) =>{
 export const unFriend = async (req: Request, res: Response) => {
   try {
     const { userId, friendID } = req.params;
+const friend:any = await userModel.findById(friendID)
+const user:any  = await userModel.findById(userId)
 
-    const friend: any = await userModel.findById(friendID);
-    const user: any = await userModel.findById(userId);
+if(user && friend){
+  friend.friends.pull(userId)
+  friend.save();
 
-    if (user && friend) {
-      friend.friends?.pull(userId);
-      friend.save();
-
-      user.friend.pull(friendID);
-      user.save();
-    }
-
-    res.status(201).json({
-      message: "you are both  no morefriends",
-    });
+  user.friends.pull(friendID)
+  user.save();
+}
+   res.status(200).json({
+    message:"You are no longer friend"
+   })
   } catch (error) {
     res.status(400).json({
       message: "Error",
